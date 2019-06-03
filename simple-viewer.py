@@ -5,7 +5,7 @@
   @Email: rinsa@suou.waseda.jp
   @Date: 2019-06-03 23:07:50
   @Last Modified by:   Tsukasa Nozawa
-  @Last Modified time: 2019-06-04 00:19:49
+  @Last Modified time: 2019-06-04 00:20:52
  ----------------------------------------------------
 
   Usage:
@@ -87,21 +87,21 @@ def calcu_vertex_normqal(ver, tri):
 
   vn = np.zeros(ver.shape, dtype=np.float32)
   for i in range(tri.shape[0]):
-  # index
-  id0 = tri[i][0]
-  id1 = tri[i][1]
-  id2 = tri[i][2]
+    # index
+    id0 = tri[i][0]
+    id1 = tri[i][1]
+    id2 = tri[i][2]
 
-  # face normal
-  ab = ver[id1] - ver[id0]
-  ac = ver[id2] - ver[id0]
-  fn = np.cross(ab, ac)
-  fn = fn / np.linalg.norm(fn)
- 
-  # add to vn array
-  vn[id0] += fn
-  vn[id1] += fn
-  vn[id2] += fn
+    # face normal
+    ab = ver[id1] - ver[id0]
+    ac = ver[id2] - ver[id0]
+    fn = np.cross(ab, ac)
+    fn = fn / np.linalg.norm(fn)
+   
+    # add to vn array
+    vn[id0] += fn
+    vn[id1] += fn
+    vn[id2] += fn
 
   vn /= np.sqrt(np.sum(vn ** 2, axis=-1))[:, None]
 
@@ -112,26 +112,26 @@ def calcu_vertex_normqal(ver, tri):
 def draw_obj():
 
   for i in range(tri.shape[0]):
-  glBegin(GL_TRIANGLES)
+    glBegin(GL_TRIANGLES)
 
-  # index
-  id0 = tri[i][0]
-  id1 = tri[i][1]
-  id2 = tri[i][2]
+    # index
+    id0 = tri[i][0]
+    id1 = tri[i][1]
+    id2 = tri[i][2]
 
-  ver0 = ver[id0] #* scale
-  ver1 = ver[id1] #* scale
-  ver2 = ver[id2] #* scale
+    ver0 = ver[id0] #* scale
+    ver1 = ver[id1] #* scale
+    ver2 = ver[id2] #* scale
 
-  # glNormal3f(fn[i][0], fn[i][1], fn[i][2])
-  glNormal3f(vn[id0][0], vn[id0][1], vn[id0][2])
-  glVertex3f(ver0[0],ver0[1],ver0[2])
-  glNormal3f(vn[id1][0], vn[id1][1], vn[id1][2])
-  glVertex3f(ver1[0],ver1[1],ver1[2])
-  glNormal3f(vn[id2][0], vn[id2][1], vn[id2][2])
-  glVertex3f(ver2[0],ver2[1],ver2[2])
+    # glNormal3f(fn[i][0], fn[i][1], fn[i][2])
+    glNormal3f(vn[id0][0], vn[id0][1], vn[id0][2])
+    glVertex3f(ver0[0],ver0[1],ver0[2])
+    glNormal3f(vn[id1][0], vn[id1][1], vn[id1][2])
+    glVertex3f(ver1[0],ver1[1],ver1[2])
+    glNormal3f(vn[id2][0], vn[id2][1], vn[id2][2])
+    glVertex3f(ver2[0],ver2[1],ver2[2])
 
-  glEnd()
+    glEnd()
 
 
 
