@@ -102,3 +102,8 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+
+# mysetting
+/screenshots/
+/meshes/temp/*
