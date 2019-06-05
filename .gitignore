@@ -108,3 +108,4 @@ venv.bak/
 /screenshots/
 /meshes/temp/*
 *.sh
+/figure/origin/*

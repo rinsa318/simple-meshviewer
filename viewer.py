@@ -4,8 +4,8 @@
   @Affiliation: Waseda University
   @Email: rinsa@suou.waseda.jp
   @Date: 2019-06-05 02:42:21
-  @Last Modified by:   Tsukasa Nozawa
-  @Last Modified time: 2019-06-05 12:24:07
+  @Last Modified by:   rinsa318
+  @Last Modified time: 2019-06-05 13:42:25
  ----------------------------------------------------
 
   Usage:
@@ -106,7 +106,7 @@ class Viewer:
     manual += "           w / W             :  turn on/off wireframe \n"
     manual += "             r               :  reset viewport \n"
     manual += "             s               :  take a screenshot as .png \n"
-    manual += "             q               :  exit the program\n"
+    manual += "             q               :  quit the program\n"
     manual += "\n\n*/----------------------------------------------------------------/*\n"
     print(manual)
 
@@ -443,7 +443,9 @@ class Viewer:
     self.__transY = 0.0
     self.__transX = 0.0
     self.__zoom = 45.0
-    self.__flag = None
+    self.__flag = None 
+    self.__axis = False
+    self.__wire = False 
     glutPostRedisplay()
 
 
