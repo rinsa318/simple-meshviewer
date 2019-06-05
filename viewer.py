@@ -5,7 +5,7 @@
   @Email: rinsa@suou.waseda.jp
   @Date: 2019-06-05 02:42:21
   @Last Modified by:   Tsukasa Nozawa
-  @Last Modified time: 2019-06-05 12:08:15
+  @Last Modified time: 2019-06-05 12:24:07
  ----------------------------------------------------
 
   Usage:
@@ -30,7 +30,7 @@ argvs = sys.argv
 
 
 class Viewer:
-  def __init__(self, ver, tri, material, light, width=800, height=600):
+  def __init__(self, ver, tri, material, light, width=800, height=800):
     '''
     set variable, and run OpenGl init()
     '''  
@@ -124,10 +124,10 @@ class Viewer:
     glEnable(GL_NORMALIZE)  
 
     ## set lighting information
-    glLightfv(GL_LIGHT0,GL_AMBIENT,self.__light_ambient)
-    glLightfv(GL_LIGHT0,GL_DIFFUSE,self.__light_diffuse)
-    glLightfv(GL_LIGHT0,GL_SPECULAR,self.__light_specular)
-    glLightfv(GL_LIGHT0,GL_POSITION,self.__light_position)
+    glLightfv(GL_LIGHT0, GL_AMBIENT, self.__light_ambient)
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, self.__light_diffuse)
+    glLightfv(GL_LIGHT0, GL_SPECULAR, self.__light_specular)
+    glLightfv(GL_LIGHT0, GL_POSITION, self.__light_position)
     glEnable(GL_DEPTH_TEST)               
   
   
@@ -161,13 +161,13 @@ class Viewer:
       ## set vertex and  bertex normal
       ## v1
       glNormal3f(self.__vn[id0][0], self.__vn[id0][1], self.__vn[id0][2])
-      glVertex3f(self.__ver[id0][0],self.__ver[id0][1],self.__ver[id0][2])
+      glVertex3f(self.__ver[id0][0], self.__ver[id0][1], self.__ver[id0][2])
       ## v2
       glNormal3f(self.__vn[id1][0], self.__vn[id1][1], self.__vn[id1][2])
-      glVertex3f(self.__ver[id1][0],self.__ver[id1][1],self.__ver[id1][2])
+      glVertex3f(self.__ver[id1][0], self.__ver[id1][1], self.__ver[id1][2])
       ## v3
       glNormal3f(self.__vn[id2][0], self.__vn[id2][1], self.__vn[id2][2])
-      glVertex3f(self.__ver[id2][0],self.__ver[id2][1],self.__ver[id2][2])  
+      glVertex3f(self.__ver[id2][0], self.__ver[id2][1], self.__ver[id2][2])  
 
     glEnd()  
   
@@ -196,11 +196,11 @@ class Viewer:
 
       ## set vertex
       ## v1
-      glVertex3f(self.__ver[id0][0],self.__ver[id0][1],self.__ver[id0][2])        
+      glVertex3f(self.__ver[id0][0], self.__ver[id0][1], self.__ver[id0][2])        
       ## v2
-      glVertex3f(self.__ver[id1][0],self.__ver[id1][1],self.__ver[id1][2])        
+      glVertex3f(self.__ver[id1][0], self.__ver[id1][1], self.__ver[id1][2])        
       ## v3
-      glVertex3f(self.__ver[id2][0],self.__ver[id2][1],self.__ver[id2][2])  
+      glVertex3f(self.__ver[id2][0], self.__ver[id2][1], self.__ver[id2][2])  
 
       glEnd()  
   
@@ -222,18 +222,18 @@ class Viewer:
 
     ## x
     glColor3f(1.0, 0.0, 0.0)
-    glVertex3f(0, 0, 0)
-    glVertex3f(1000,0,0)  
+    glVertex3f(0.0, 0.0, 0.0)
+    glVertex3f(1000, 0.0, 0.0)  
 
     ## y
     glColor3f(0.0, 1.0, 0.0)
-    glVertex3f(0,0,0)
-    glVertex3f(0,1000,0)  
+    glVertex3f(0.0, 0.0, 0.0)
+    glVertex3f(0.0, 1000, 0.0)  
 
     ## z
     glColor3f(0.0, 0.0, 1.0)
-    glVertex3f(0,0,0)
-    glVertex3f(0,0,1000)
+    glVertex3f(0.0, 0.0, 0.0)
+    glVertex3f(0.0, 0.0, 1000)
     glEnd()  
 
         
@@ -247,7 +247,7 @@ class Viewer:
     ## set screen info
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
-    gluLookAt(10.0,10.0,10.0,0.0,0.0,0.0,0.0,1.0,0.0)
+    gluLookAt(0.0, 0.0, 4.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
     gluPerspective(self.__zoom, float(self.__width) / float(self.__height), 0.1, 100.0)
@@ -255,9 +255,9 @@ class Viewer:
   
 
     ## modeling transform
-    glRotatef(self.__rotX,1.0,0.0,0.0)
-    glRotatef(self.__rotY,0.0,1.0,0.0)
-    glRotatef(self.__rotZ,0.0,0.0,1.0)
+    glRotatef(self.__rotX, 1.0, 0.0, 0.0)
+    glRotatef(self.__rotY, 0.0, 1.0, 0.0)
+    glRotatef(self.__rotZ, 0.0, 0.0, 1.0)
     glTranslatef(self.__transY/100.0, 0.0, 0.0)
     glTranslatef(0.0, -self.__transX/100.0, 0.0)
   

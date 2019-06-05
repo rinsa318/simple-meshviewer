@@ -5,7 +5,7 @@
   @Email: rinsa@suou.waseda.jp
   @Date: 2019-06-05 02:45:31
   @Last Modified by:   Tsukasa Nozawa
-  @Last Modified time: 2019-06-05 12:15:57
+  @Last Modified time: 2019-06-05 12:31:44
  ----------------------------------------------------
 
   Usage:
@@ -18,26 +18,26 @@
                   1 : 'jade'
                   2 : 'obsidian'
                   3 : 'pearl'
-                  5 : 'ruby'
-                  6 : 'turquoise'
-                  7 : 'brass'
-                  8 : 'bronze'
-                  9 : 'chrome'
-                 10 : 'copper'
-                 11 : 'gold'
-                 12 : 'silver'
-                 13 : 'black-plastic'
-                 14 : 'cyan-plastic'
-                 15 : 'green-plastic'
-                 16 : 'red-plastic'
-                 17 : 'white-plastic'
-                 18 : 'yellow-plastic'
-                 19 : 'black-rubbe'
-                 20 : 'cyan-rubbe'
-                 21 : 'green-rubbe'
-                 22 : 'red-rubbe'
-                 23 : 'white-rubbe'
-                 24 : 'yellow-rubbe'
+                  4 : 'ruby'
+                  5 : 'turquoise'
+                  6 : 'brass'
+                  7 : 'bronze'
+                  8 : 'chrome'
+                  9 : 'copper'
+                 10 : 'gold'
+                 11 : 'silver'
+                 12 : 'black-plastic'
+                 13 : 'cyan-plastic'
+                 14 : 'green-plastic'
+                 15 : 'red-plastic'
+                 16 : 'white-plastic'
+                 17 : 'yellow-plastic'
+                 18 : 'black-rubber'
+                 19 : 'cyan-rubber'
+                 20 : 'green-rubber'
+                 21 : 'red-rubber'
+                 22 : 'white-rubber'
+                 23 : 'yellow-rubber'
 
 """
 
