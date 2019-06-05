@@ -2,7 +2,7 @@
 PyOpenGL based simple mesh viewer
 
 <div align="center">
-  <img src="figure/usage.gif" width=70%>
+  <img src="figure/usage.gif" width=300>
   <div style="text-align: center;">
     Figure1. Overview of this repo
   </div>
