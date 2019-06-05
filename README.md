@@ -47,7 +47,7 @@ $ python main.py argvs[1] argvs[2]
 ```
 
 <div align="center">
-  <img src="figure/figure1.png" width=70%>
+  <img src="figure/figure1.png" width=100%>
   <div style="text-align: center;">
     Figure2. List of registered materials
   </div>
