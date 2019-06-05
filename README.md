@@ -2,7 +2,7 @@
 PyOpenGL based simple mesh viewer
 
 <div align="center">
-  <img src="figure/usage.gif" width=100%>
+  <img src="figure/usage.gif" width=70%>
   <div style="text-align: center;">
     Figure1. Overview of this repo
   </div>
@@ -47,7 +47,7 @@ $ python main.py argvs[1] argvs[2]
 ```
 
 <div align="center">
-  <img src="figure/figure1.png" width=100%>
+  <img src="figure/figure1.png" width=70%>
   <div style="text-align: center;">
     Figure2. List of registered materials
   </div>
