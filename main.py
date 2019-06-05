@@ -4,67 +4,82 @@
   @Affiliation: Waseda University
   @Email: rinsa@suou.waseda.jp
   @Date: 2019-06-05 02:45:31
-  @Last Modified by:   rinsa318
-  @Last Modified time: 2019-06-05 03:53:34
+  @Last Modified by:   Tsukasa Nozawa
+  @Last Modified time: 2019-06-05 12:15:57
  ----------------------------------------------------
 
   Usage:
    python main.py argvs[1] argvs[2] argvs[3]
 
-   argvs[1]  :  .obj file
-   argvs[2]  :  width of screen
-   argvs[3]  :  height of screen
+   argvs[1]  :  path to .obj file
+   argvs[2]  :  material index
+
+                  0 : 'emerald'
+                  1 : 'jade'
+                  2 : 'obsidian'
+                  3 : 'pearl'
+                  5 : 'ruby'
+                  6 : 'turquoise'
+                  7 : 'brass'
+                  8 : 'bronze'
+                  9 : 'chrome'
+                 10 : 'copper'
+                 11 : 'gold'
+                 12 : 'silver'
+                 13 : 'black-plastic'
+                 14 : 'cyan-plastic'
+                 15 : 'green-plastic'
+                 16 : 'red-plastic'
+                 17 : 'white-plastic'
+                 18 : 'yellow-plastic'
+                 19 : 'black-rubbe'
+                 20 : 'cyan-rubbe'
+                 21 : 'green-rubbe'
+                 22 : 'red-rubbe'
+                 23 : 'white-rubbe'
+                 24 : 'yellow-rubbe'
 
 """
 
 
-from OpenGL.GL import *
-from OpenGL.GLUT import *
-from OpenGL.GLU import *
+
 import sys
 
-
-## my function
+## my class and function
 from obj_functions import *
 from viewer import Viewer
 from material import *
-
+from light import *
 argvs = sys.argv
 
 
 
 def main():
 
-  ##### load obj
-  vertex, face = loadobj(argvs[1])
+  #### set config
+  meshpath = argvs[1]
+  material_index = int(argvs[2])
 
 
-  #### window info
-  width = int(argvs[2])
-  height = int(argvs[3])
+  #### load obj
+  vertex, face = loadobj(meshpath)
 
 
-  #### light info
-  light_ambient = [0.25, 0.25, 0.25]
-  light_diffuse = [1.0, 1.0, 1.0]
-  light_specular = [1.0, 1.0, 1.0]
-  light_position = [0, 0, 1, 1]
-  light = [light_ambient, light_diffuse, light_specular, light_position]
+  #### light parameter
+  light = get_light()
 
 
-  ##### material info
-  mat_list = get_mat_list()
-  print_mat_list()
-  material = set_parameter(mat_list[int(argvs[4])])
+  ##### material parameter
+  name, material = set_parameter(material_index)
 
 
   #### start OpenGL loop
-  glutInit(sys.argv)
-  glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH)
-  glutInitWindowSize(width, height)
-  glutCreateWindow("PyOpenGL Simple Viewer")
+  print("start rendering!")
+  print("Input: {}".format(meshpath))
+  print("Selecrt material is: {}\n".format(name))
+  # print("-----------------------------\n")
   Viewer(vertex, face, material, light)
-  glutMainLoop()
+  # Viewer(vertex, face, material, light, 1200, 900)
 
 
 if __name__ == '__main__':

@@ -4,20 +4,36 @@
   @Affiliation: Waseda University
   @Email: rinsa@suou.waseda.jp
   @Date: 2019-06-05 02:56:40
-  @Last Modified by:   rinsa318
-  @Last Modified time: 2019-06-05 03:44:41
+  @Last Modified by:   Tsukasa Nozawa
+  @Last Modified time: 2019-06-05 12:14:45
  ----------------------------------------------------
 
-  Usage:
-   python <file_name>.py argvs[1] argvs[2] argvs[3]...
+  <material index>
 
-   argvs[1]  :  ??????????   -->   !!!!!!!!!!
-   argvs[2]  :  ??????????   -->   !!!!!!!!!!
-   argvs[3]  :  ??????????   -->   !!!!!!!!!!
-
-  Options:
-   xxx       :  ??????????   -->   !!!!!!!!!!
-
+      0 : 'emerald'
+      1 : 'jade'
+      2 : 'obsidian'
+      3 : 'pearl'
+      5 : 'ruby'
+      6 : 'turquoise'
+      7 : 'brass'
+      8 : 'bronze'
+      9 : 'chrome'
+     10 : 'copper'
+     11 : 'gold'
+     12 : 'silver'
+     13 : 'black-plastic'
+     14 : 'cyan-plastic'
+     15 : 'green-plastic'
+     16 : 'red-plastic'
+     17 : 'white-plastic'
+     18 : 'yellow-plastic'
+     19 : 'black-rubbe'
+     20 : 'cyan-rubbe'
+     21 : 'green-rubbe'
+     22 : 'red-rubbe'
+     23 : 'white-rubbe'
+     24 : 'yellow-rubbe'
 
 
 """
@@ -51,35 +67,9 @@ def get_mat_list():
   return mat_list
 
 
-def print_mat_list():
-  mat_list = ["emerald", 
-              "jade", 
-              "obsidian", 
-              "pearl", 
-              "ruby", 
-              "turquoise", 
-              "brass", 
-              "bronze", 
-              "chrome", 
-              "copper", 
-              "gold", 
-              "silver", 
-              "black-plastic", 
-              "cyan-plastic", 
-              "green-plastic", 
-              "red-plastic", 
-              "white-plastic", 
-              "yellow-plastic", 
-              "black-rubbe", 
-              "cyan-rubbe", 
-              "green-rubbe", 
-              "red-rubbe", 
-              "white-rubbe", 
-              "yellow-rubbe"]
-  print(mat_list)
 
 
-def set_parameter(name):
+def set_parameter(index=10):
   '''
   function for select material.
   all parameter came from
@@ -88,6 +78,8 @@ def set_parameter(name):
   '''
 
 
+  list = get_mat_list()
+  name = list[index]
   material = []
 
   if(name == "emerald"):
@@ -264,4 +256,4 @@ def set_parameter(name):
     print("wrong name.")
     return None
 
-  return material
+  return name, material

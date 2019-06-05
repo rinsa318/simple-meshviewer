@@ -4,8 +4,8 @@
   @Affiliation: Waseda University
   @Email: rinsa@suou.waseda.jp
   @Date: 2019-06-05 02:42:21
-  @Last Modified by:   rinsa318
-  @Last Modified time: 2019-06-05 02:54:37
+  @Last Modified by:   Tsukasa Nozawa
+  @Last Modified time: 2019-06-05 12:08:15
  ----------------------------------------------------
 
   Usage:
@@ -30,18 +30,20 @@ argvs = sys.argv
 
 
 class Viewer:
-  def __init__(self, ver, tri, material, light):
+  def __init__(self, ver, tri, material, light, width=800, height=600):
     '''
     set variable, and run OpenGl init()
     '''  
 
     ## variable for mouse motion
-    self.__mouseX = 0
-    self.__mouseY = 0
-    self.__xrot = 0
-    self.__yrot = 0
-    self.__zrot = 0
-    self.__zoom = 45
+    self.__mouseX = 0.0
+    self.__mouseY = 0.0
+    self.__rotX = 0.0
+    self.__rotY = 0.0
+    self.__rotZ = 0.0
+    self.__transY = 0.0
+    self.__transX = 0.0
+    self.__zoom =  45.0
     self.__flag = None  
 
     ## flag for render
@@ -55,8 +57,11 @@ class Viewer:
   
 
     ## variable for screen
-    self.__width = glutGet(GLUT_WINDOW_WIDTH)
-    self.__height = glutGet(GLUT_WINDOW_HEIGHT)  
+    # self.__width = glutGet(GLUT_WINDOW_WIDTH)
+    # self.__height = glutGet(GLUT_WINDOW_HEIGHT)
+    self.__width = width 
+    self.__height = height
+
 
     ## variable for shading
     self.__ambient = material[0]
@@ -68,7 +73,13 @@ class Viewer:
     self.__light_specular = light[2]
     self.__light_position = light[3]  
 
+
     ## OpenGL init()
+    self._manual()
+    glutInit(sys.argv)
+    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH)
+    glutInitWindowSize(self.__width, self.__height)
+    glutCreateWindow("PyOpenGL Simple Viewer")
     glutDisplayFunc(self._draw)
     glutMouseFunc(self._mousePressed)
     glutMotionFunc(self._mouseDragged) 
@@ -77,8 +88,30 @@ class Viewer:
     glClearColor(0.3, 0.3, 0.5, 1.0)
     self._setLight()
     glEnable(GL_DEPTH_TEST)
-        
+    glutMainLoop()
   
+
+
+  def _manual(self):
+    '''
+    print manual
+    '''
+
+    manual = "\n*/---------------------------- manual ----------------------------/*\n\n\n"
+    manual += " Drag with Left Mousebutton  :  move eye position\n"
+    manual += " Drag with right Mousebutton :  move down/up to zoom in/out\n"
+    manual += " Drag with middle Mousebutton:  move vertical/horizontal to\n"
+    manual += "                                translate the screen along y/x axis\n"
+    manual += "           a / A             :  turn on/off axis \n"
+    manual += "           w / W             :  turn on/off wireframe \n"
+    manual += "             r               :  reset viewport \n"
+    manual += "             s               :  take a screenshot as .png \n"
+    manual += "             q               :  exit the program\n"
+    manual += "\n\n*/----------------------------------------------------------------/*\n"
+    print(manual)
+
+
+
 
   def _setLight(self):
     '''
@@ -222,9 +255,11 @@ class Viewer:
   
 
     ## modeling transform
-    glRotatef(self.__xrot,1.0,0.0,0.0)
-    glRotatef(self.__yrot,0.0,1.0,0.0)
-    glRotatef(self.__zrot,0.0,0.0,1.0)  
+    glRotatef(self.__rotX,1.0,0.0,0.0)
+    glRotatef(self.__rotY,0.0,1.0,0.0)
+    glRotatef(self.__rotZ,0.0,0.0,1.0)
+    glTranslatef(self.__transY/100.0, 0.0, 0.0)
+    glTranslatef(0.0, -self.__transX/100.0, 0.0)
   
 
     ## render object with material
@@ -251,7 +286,7 @@ class Viewer:
     Then edit self.__flag for _mouseDragged()
     '''  
 
-    ## add flag for rotation
+    ## add flag for move eye position
     if(button == GLUT_LEFT_BUTTON):
       self.__flag = "left"  
   
@@ -260,6 +295,10 @@ class Viewer:
     elif(button == GLUT_RIGHT_BUTTON):
       self.__flag = "right"  
   
+
+    ## add flag for translation
+    elif(button==GLUT_MIDDLE_BUTTON):
+      self.__flag = "middle"
 
     else:
       glutIdleFunc(0)
@@ -271,15 +310,15 @@ class Viewer:
 
   def _mouseDragged(self, x, y):
     '''
-    Apply rotation, translation, zoom in/out.  
+    Apply move eye position, translation, zoom in/out.  
 
     '''  
 
     ## mouse move with left click 
-    ##  --> mouse based rotation
+    ##  --> mouse based move eye position
     if(self.__flag == "left"):
-      self.__xrot += y - self.__mouseY
-      self.__yrot += x - self.__mouseX  
+      self.__rotX += y - self.__mouseY
+      self.__rotY += x - self.__mouseX  
   
 
     ## mouse move with right click 
@@ -295,6 +334,14 @@ class Viewer:
       elif self.__zoom < th_min:
         self.__zoom = th_min  
   
+
+    ## mouse move with middle click 
+    ##  --> mouse based translation
+    elif(self.__flag=="middle"):
+      self.__transY += y - self.__mouseY
+      self.__transX += x - self.__mouseX
+        
+
 
     self.__mouseX = x
     self.__mouseY = y
@@ -388,12 +435,14 @@ class Viewer:
     re-set viewer informaiton
     '''  
 
-    self.__mouseX = 0
-    self.__mouseY = 0
-    self.__xrot = 0
-    self.__yrot = 0
-    self.__zrot = 0
-    self.__zoom = 45
+    self.__mouseX = 0.0
+    self.__mouseY = 0.0
+    self.__rotX = 0.0
+    self.__rotY = 0.0
+    self.__rotZ = 0.0
+    self.__transY = 0.0
+    self.__transX = 0.0
+    self.__zoom = 45.0
     self.__flag = None
     glutPostRedisplay()
 
