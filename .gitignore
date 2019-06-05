@@ -107,3 +107,4 @@ venv.bak/
 # mysetting
 /screenshots/
 /meshes/temp/*
+*.sh
