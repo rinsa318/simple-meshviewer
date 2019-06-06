@@ -4,8 +4,8 @@
   @Affiliation: Waseda University
   @Email: rinsa@suou.waseda.jp
   @Date: 2019-06-05 02:42:21
-  @Last Modified by:   rinsa318
-  @Last Modified time: 2019-06-05 13:42:25
+  @Last Modified by:   Tsukasa Nozawa
+  @Last Modified time: 2019-06-06 11:11:45
  ----------------------------------------------------
 
   Usage:
@@ -48,7 +48,8 @@ class Viewer:
 
     ## flag for render
     self.__axis = False
-    self.__wire = False  
+    self.__wire = False
+    self.__shading = False  
 
     ## variable for object
     self.__ver = ver
@@ -87,7 +88,6 @@ class Viewer:
     glutKeyboardFunc(self._keyboard)
     glClearColor(0.3, 0.3, 0.5, 1.0)
     self._setLight()
-    glEnable(GL_DEPTH_TEST)
     glutMainLoop()
   
 
@@ -97,17 +97,18 @@ class Viewer:
     print manual
     '''
 
-    manual = "\n*/---------------------------- manual ----------------------------/*\n\n\n"
-    manual += " Drag with Left Mousebutton  :  move eye position\n"
-    manual += " Drag with right Mousebutton :  move down/up to zoom in/out\n"
-    manual += " Drag with middle Mousebutton:  move vertical/horizontal to\n"
-    manual += "                                translate the screen along y/x axis\n"
-    manual += "           a / A             :  turn on/off axis \n"
-    manual += "           w / W             :  turn on/off wireframe \n"
-    manual += "             r               :  reset viewport \n"
-    manual += "             s               :  take a screenshot as .png \n"
-    manual += "             q               :  quit the program\n"
-    manual += "\n\n*/----------------------------------------------------------------/*\n"
+    manual = "\n*/----------------------------- manual -----------------------------/*\n\n\n"
+    manual += " Drag with Left Mousebutton    :  move eye position\n"
+    manual += " Drag with right Mousebutton   :  move down/up to zoom in/out\n"
+    manual += " Drag with middle Mousebutton  :  move vertical/horizontal to\n"
+    manual += "                                  translate the screen along y/x axis\n"
+    manual += "           a / A               :  type a/A to turn on/off axis \n"
+    manual += "           w / W               :  type w/W to turn on/off wireframe \n"
+    manual += "           s / S               :  type s/S to change Smooth/Flat shading\n"
+    manual += "             r                 :  reset viewport \n"
+    manual += "             p                 :  take a screenshot as .png \n"
+    manual += "             q                 :  quit the program\n"
+    manual += "\n\n*/------------------------------------------------------------------/*\n"
     print(manual)
 
 
@@ -121,7 +122,8 @@ class Viewer:
     ## turn on shading
     glEnable(GL_LIGHTING)
     glEnable(GL_LIGHT0)
-    glEnable(GL_NORMALIZE)  
+    glEnable(GL_NORMALIZE)
+
 
     ## set lighting information
     glLightfv(GL_LIGHT0, GL_AMBIENT, self.__light_ambient)
@@ -138,9 +140,14 @@ class Viewer:
     with material
     '''  
 
+
     ## apply shading
     glEnable(GL_LIGHTING)
     glEnable(GL_LIGHT0)  
+    if(self.__shading):
+      glShadeModel(GL_SMOOTH)
+    else:
+      glShadeModel(GL_FLAT)
 
     ## set material information
     glMaterialfv(GL_FRONT, GL_AMBIENT, self.__ambient)
@@ -389,8 +396,16 @@ class Viewer:
     elif(key=='W'): 
       self.__wire = False  
 
-    ## take a screenshot
+    ## turn on smooth-shading
     elif(key=='s'): 
+      self.__shading = True
+
+    ## turn off smooth-shading
+    elif(key=='S'): 
+      self.__shading = False
+
+    ## take a screenshot
+    elif(key=='p'): 
       self._screenshot()  
 
     ## quit a program
@@ -446,6 +461,7 @@ class Viewer:
     self.__flag = None 
     self.__axis = False
     self.__wire = False 
+    self.__shading = False 
     glutPostRedisplay()
 
 
