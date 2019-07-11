@@ -4,8 +4,8 @@
   @Affiliation: Waseda University
   @Email: rinsa@suou.waseda.jp
   @Date: 2019-06-03 15:17:55
-  @Last Modified by:   rinsa318
-  @Last Modified time: 2019-06-05 02:28:08
+  @Last Modified by:   Tsukasa Nozawa
+  @Last Modified time: 2019-07-11 12:36:42
  ----------------------------------------------------
 
 
@@ -61,34 +61,68 @@ def writeobj(filepath, vertices, triangles):
 
 
 
-def calc_vertex_normal(ver, tri):
+def compute_normal(vertices, indices):
+  '''
+  Compute vertex normal: Nelson Max's method
+  see here: "Weights for Computing Vertex Normals from Facet Normals"
+  '''
 
-  vn = np.zeros(ver.shape, dtype=np.float32)
-  for i in range(tri.shape[0]):
-    # index
-    id0 = tri[i][0]
-    id1 = tri[i][1]
-    id2 = tri[i][2]
+  fn = np.zeros(indices.shape, dtype=np.float32)
+  vn = np.zeros(vertices.shape, dtype=np.float32)
+  v = [vertices[indices[:, 0], :],
+       vertices[indices[:, 1], :],
+       vertices[indices[:, 2], :]]
 
-    # face normal
-    ab = ver[id1] - ver[id0]
-    ac = ver[id2] - ver[id0]
-    face_normal = np.cross(ab, ac)
-    # norm = np.sqrt(np.sum(face_normal ** 2, axis=-1))
-    norm = np.linalg.norm(face_normal, axis=-1)
-    # norm = np.linalg.norm(face_normal)
-    # print(norm)
-    # print(np.linalg.norm(np.array(face_normal)))
-    # print(np.sqrt(np.sum(face_normal ** 2, axis=-1)))
+  ## loop for adjacent vertices
+  ## this code assume triangle mesh
+  ## f(v0, v1, v2)
+  for i in range(3):
+    v0 = v[i]
+    v1 = v[(i + 1) % 3]
+    v2 = v[(i + 2) % 3]
+    e1 = v1 - v0
+    e2 = v2 - v0
+    e1_len = np.linalg.norm(e1, axis=-1)
+    e2_len = np.linalg.norm(e2, axis=-1)
+    side_a = e1 / np.reshape(e1_len, (-1, 1))
+    side_b = e2 / np.reshape(e2_len, (-1, 1))
 
 
-    fn = face_normal / norm
-   
-    # add to vn array
-    vn[id0] += fn
-    vn[id1] += fn
-    vn[id2] += fn
+    ## compute face normal
+    if(i == 0):
+      fn = np.cross(side_a, side_b)
+      fn = fn / np.reshape(np.linalg.norm(fn, axis=-1), (-1, 1))
+      # fn = n
 
-  vn /= np.sqrt(np.sum(vn ** 2, axis=-1))[:, None]
 
-  return np.array(vn, dtype=np.float32)
+    ## comput angle between 2 edge
+    angle = np.where(np.sum(side_a *side_b, axis=-1) < 0,
+                    np.pi - 2.0 * np.arcsin(0.5 * np.linalg.norm(side_a + side_b, axis=-1)),
+                    2.0 * np.arcsin(0.5 * np.linalg.norm(side_b - side_a, axis=-1)))
+    sin_angle = np.sin(angle)
+
+
+    ## compute weight, and re-compute normal
+    contrib = fn * np.reshape(sin_angle / (e1_len * e2_len), (-1, 1))
+    index = indices[:, i]
+
+    ## add as vertex normal
+    for i in range(index.shape[0]):
+      vn[index[i], :] += contrib[i, :]
+
+
+  ## normalize
+  vn = vn / np.reshape(np.linalg.norm(vn, axis=-1), (-1, 1))
+
+  return fn, vn
+
+
+
+def loadfp(path):
+  fp = []
+  
+  with open(path, 'r') as f:
+    for line in f:
+      fp.append(line)
+      
+  return np.array(fp, dtype=np.int32)

@@ -5,7 +5,7 @@
   @Email: rinsa@suou.waseda.jp
   @Date: 2019-06-05 02:42:21
   @Last Modified by:   Tsukasa Nozawa
-  @Last Modified time: 2019-06-06 11:11:45
+  @Last Modified time: 2019-07-11 12:37:52
  ----------------------------------------------------
 
   Usage:
@@ -54,7 +54,7 @@ class Viewer:
     ## variable for object
     self.__ver = ver
     self.__tri = tri
-    self.__vn = calc_vertex_normal(ver, tri)  
+    self.__fn, self.__vn = compute_normal(ver, tri)  
   
 
     ## variable for screen
@@ -165,16 +165,19 @@ class Viewer:
       id1 = self.__tri[i][1]
       id2 = self.__tri[i][2]  
 
-      ## set vertex and  bertex normal
+      ## set vertex and normal
       ## v1
+      # glNormal3f(self.__fn[i][0], self.__fn[i][1], self.__fn[i][2])
       glNormal3f(self.__vn[id0][0], self.__vn[id0][1], self.__vn[id0][2])
       glVertex3f(self.__ver[id0][0], self.__ver[id0][1], self.__ver[id0][2])
       ## v2
+      # glNormal3f(self.__fn[i][0], self.__fn[i][1], self.__fn[i][2])
       glNormal3f(self.__vn[id1][0], self.__vn[id1][1], self.__vn[id1][2])
       glVertex3f(self.__ver[id1][0], self.__ver[id1][1], self.__ver[id1][2])
       ## v3
+      # glNormal3f(self.__fn[i][0], self.__fn[i][1], self.__fn[i][2])
       glNormal3f(self.__vn[id2][0], self.__vn[id2][1], self.__vn[id2][2])
-      glVertex3f(self.__ver[id2][0], self.__ver[id2][1], self.__ver[id2][2])  
+      glVertex3f(self.__ver[id2][0], self.__ver[id2][1], self.__ver[id2][2]) 
 
     glEnd()  
   
