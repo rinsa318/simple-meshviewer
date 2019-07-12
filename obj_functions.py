@@ -5,7 +5,7 @@
   @Email: rinsa@suou.waseda.jp
   @Date: 2019-06-03 15:17:55
   @Last Modified by:   Tsukasa Nozawa
-  @Last Modified time: 2019-07-11 12:36:42
+  @Last Modified time: 2019-07-12 20:40:03
  ----------------------------------------------------
 
 
@@ -66,7 +66,7 @@ def compute_normal(vertices, indices):
   Compute vertex normal: Nelson Max's method
   see here: "Weights for Computing Vertex Normals from Facet Normals"
   '''
-
+  eps = 1e-10
   fn = np.zeros(indices.shape, dtype=np.float32)
   vn = np.zeros(vertices.shape, dtype=np.float32)
   v = [vertices[indices[:, 0], :],
@@ -84,26 +84,26 @@ def compute_normal(vertices, indices):
     e2 = v2 - v0
     e1_len = np.linalg.norm(e1, axis=-1)
     e2_len = np.linalg.norm(e2, axis=-1)
-    side_a = e1 / np.reshape(e1_len, (-1, 1))
-    side_b = e2 / np.reshape(e2_len, (-1, 1))
+    side_a = e1 / (np.reshape(e1_len, (-1, 1)) + eps)
+    side_b = e2 / (np.reshape(e2_len, (-1, 1)) + eps)
 
 
     ## compute face normal
     if(i == 0):
       fn = np.cross(side_a, side_b)
-      fn = fn / np.reshape(np.linalg.norm(fn, axis=-1), (-1, 1))
+      fn = fn / (np.reshape(np.linalg.norm(fn, axis=-1), (-1, 1)) + eps)
       # fn = n
 
 
     ## comput angle between 2 edge
     angle = np.where(np.sum(side_a *side_b, axis=-1) < 0,
-                    np.pi - 2.0 * np.arcsin(0.5 * np.linalg.norm(side_a + side_b, axis=-1)),
-                    2.0 * np.arcsin(0.5 * np.linalg.norm(side_b - side_a, axis=-1)))
+                    np.pi - 2.0 * np.arcsin(np.around(0.5 * np.linalg.norm(side_a + side_b, axis=-1))),
+                    2.0 * np.arcsin(np.around(0.5 * np.linalg.norm(side_b - side_a, axis=-1))))
     sin_angle = np.sin(angle)
 
 
     ## compute weight, and re-compute normal
-    contrib = fn * np.reshape(sin_angle / (e1_len * e2_len), (-1, 1))
+    contrib = fn * np.reshape(sin_angle / ((e1_len * e2_len) + eps), (-1, 1))
     index = indices[:, i]
 
     ## add as vertex normal
@@ -112,10 +112,9 @@ def compute_normal(vertices, indices):
 
 
   ## normalize
-  vn = vn / np.reshape(np.linalg.norm(vn, axis=-1), (-1, 1))
+  vn = vn / (np.reshape(np.linalg.norm(vn, axis=-1), (-1, 1)) + eps)
 
   return fn, vn
-
 
 
 def loadfp(path):
