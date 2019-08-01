@@ -1,5 +1,6 @@
 # simple-meshviewer
-PyOpenGL based simple mesh viewer
+PyOpenGL based simple mesh viewer.  
+Note: My implementation of Nelson's method which is using for vertex normal having bugs....
 
 <div align="center">
   <img src="figure/usage.gif" width=300>
@@ -11,7 +12,7 @@ PyOpenGL based simple mesh viewer
 
 ## Environment
 Ubuntu 18.04  
-Python3.6(Anaconda3-5.2.0)
+Python3.6
 
 
 
