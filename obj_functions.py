@@ -4,8 +4,8 @@
   @Affiliation: Waseda University
   @Email: rinsa@suou.waseda.jp
   @Date: 2019-06-03 15:17:55
-  @Last Modified by:   Tsukasa Nozawa
-  @Last Modified time: 2019-07-12 20:40:03
+  @Last Modified by:   rinsa318
+  @Last Modified time: 2019-08-01 18:13:00
  ----------------------------------------------------
 
 
@@ -90,15 +90,15 @@ def compute_normal(vertices, indices):
 
     ## compute face normal
     if(i == 0):
-      fn = np.cross(side_a, side_b)
+      fn = np.cross(side_b, side_a)
       fn = fn / (np.reshape(np.linalg.norm(fn, axis=-1), (-1, 1)) + eps)
       # fn = n
 
 
     ## comput angle between 2 edge
-    angle = np.where(np.sum(side_a *side_b, axis=-1) < 0,
+    angle = np.where(np.sum(side_b *side_a, axis=-1) < 0,
                     np.pi - 2.0 * np.arcsin(np.around(0.5 * np.linalg.norm(side_a + side_b, axis=-1))),
-                    2.0 * np.arcsin(np.around(0.5 * np.linalg.norm(side_b - side_a, axis=-1))))
+                    2.0 * np.arcsin(np.around(0.5 * np.linalg.norm(side_a - side_b, axis=-1))))
     sin_angle = np.sin(angle)
 
 
@@ -115,6 +115,43 @@ def compute_normal(vertices, indices):
   vn = vn / (np.reshape(np.linalg.norm(vn, axis=-1), (-1, 1)) + eps)
 
   return fn, vn
+
+
+
+def calc_vertex_normal(ver, tri):
+
+
+  fn = np.zeros(tri.shape, dtype=np.float32)
+  vn = np.zeros(ver.shape, dtype=np.float32)
+  for i in range(tri.shape[0]):
+    # index
+    id0 = tri[i][0]
+    id1 = tri[i][1]
+    id2 = tri[i][2]
+
+    # face normal
+    ab = ver[id1] - ver[id0]
+    ac = ver[id2] - ver[id0]
+    face_normal = np.cross(ab, ac)
+    # norm = np.sqrt(np.sum(face_normal ** 2, axis=-1))
+    norm = np.linalg.norm(face_normal, axis=-1)
+    # norm = np.linalg.norm(face_normal)
+    # print(norm)
+    # print(np.linalg.norm(np.array(face_normal)))
+    # print(np.sqrt(np.sum(face_normal ** 2, axis=-1)))
+
+
+    fn[i] = face_normal / norm
+   
+    # add to vn array
+    vn[id0] += fn[i]
+    vn[id1] += fn[i]
+    vn[id2] += fn[i]
+
+  vn /= np.sqrt(np.sum(vn ** 2, axis=-1))[:, None]
+
+  return fn, vn
+
 
 
 def loadfp(path):

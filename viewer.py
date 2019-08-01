@@ -4,8 +4,8 @@
   @Affiliation: Waseda University
   @Email: rinsa@suou.waseda.jp
   @Date: 2019-06-05 02:42:21
-  @Last Modified by:   Tsukasa Nozawa
-  @Last Modified time: 2019-07-11 12:37:52
+  @Last Modified by:   rinsa318
+  @Last Modified time: 2019-08-01 18:12:30
  ----------------------------------------------------
 
   Usage:
@@ -54,7 +54,8 @@ class Viewer:
     ## variable for object
     self.__ver = ver
     self.__tri = tri
-    self.__fn, self.__vn = compute_normal(ver, tri)  
+    # self.__fn, self.__vn = compute_normal(ver, tri) 
+    self.__fn, self.__vn = calc_vertex_normal(ver, tri)  
   
 
     ## variable for screen
