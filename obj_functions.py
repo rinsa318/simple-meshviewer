@@ -4,8 +4,8 @@
   @Affiliation: Waseda University
   @Email: rinsa@suou.waseda.jp
   @Date: 2019-06-03 15:17:55
-  @Last Modified by:   rinsa318
-  @Last Modified time: 2019-08-01 18:13:00
+  @Last Modified by:   Tsukasa Nozawa
+  @Last Modified time: 2019-08-02 20:19:41
  ----------------------------------------------------
 
 
@@ -90,15 +90,16 @@ def compute_normal(vertices, indices):
 
     ## compute face normal
     if(i == 0):
-      fn = np.cross(side_b, side_a)
+      fn = np.cross(side_a, side_b)
+      print(fn)
       fn = fn / (np.reshape(np.linalg.norm(fn, axis=-1), (-1, 1)) + eps)
       # fn = n
 
 
     ## comput angle between 2 edge
     angle = np.where(np.sum(side_b *side_a, axis=-1) < 0,
-                    np.pi - 2.0 * np.arcsin(np.around(0.5 * np.linalg.norm(side_a + side_b, axis=-1))),
-                    2.0 * np.arcsin(np.around(0.5 * np.linalg.norm(side_a - side_b, axis=-1))))
+                    np.pi - 2.0 * np.arcsin(0.5 * np.linalg.norm(side_a + side_b, axis=-1)),
+                    2.0 * np.arcsin(0.5 * np.linalg.norm(side_a - side_b, axis=-1)))
     sin_angle = np.sin(angle)
 
 
